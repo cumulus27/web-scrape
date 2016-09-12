@@ -10,9 +10,13 @@ jsonHtml=json.loads(html)
 for dataList in jsonHtml.get('data'):
     for bodyList in dataList.get('post').get('body'):
         url=bodyList.get('image')
-        print('get one')
         if url:
             info=url.split('/')
-            filename=info[-1]
-            urlretrieve(url,"images/"+filename)
-            print(url)
+            imgtype=info[-1].split('.')
+            if imgtype[-1]=='jpg':
+                for i in range(3):
+                    del info[0]
+                link='-'
+                filename=link.join(info)
+                urlretrieve(url,"images/image_"+filename)
+                print(url)
