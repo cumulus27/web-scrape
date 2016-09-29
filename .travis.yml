@@ -8,3 +8,6 @@ install: "pip install -r requirements.txt"
 
 # command to run tests
 script: python3 oneday-755-scrape.py
+
+after_success:
+  - coveralls
