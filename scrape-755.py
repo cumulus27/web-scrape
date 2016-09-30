@@ -34,7 +34,7 @@ class Crawl:
         for dataList in self.json_data.get('data'):
             onePost=dataList.get('post')
             postTime=onePost.get('time')
-            if now-postTime>self.time_limit:
+            if self.now-postTime>self.time_limit:
                 break
             for bodyList in onePost.get('body'):
                 #get image url
@@ -59,7 +59,7 @@ class Download_url:
         today=datetime.datetime.now()
         today=today.strftime('%Y-%m-%d')
         if not os.path.exists("755-download/{}/{}/{}".format(name_id,today,ftype)):
-            os.mkdirs("755-download/{}/{}/{}".format(name_id,today,ftype))
+            os.makedirs("755-download/{}/{}/{}".format(name_id,today,ftype))
         self.path="755-download/{}/{}/{}/".format(name_id,today,ftype)
         self.urls=url
 
@@ -71,7 +71,8 @@ class Download_url:
             link='-'
             filename=link.join(info)
             try:
-                urlretrieve(url,path+filename)
+                urlretrieve(url,self.path+filename)
+                print(url)
             except Exception as e:
                 print("Unknown error: {}".format(e))
                 print("From： {}".format(url))
@@ -86,11 +87,14 @@ if __name__ == '__main__':
     for name_id in namelist:
         print('Downloading {}\'s pictures and movies now...'.format(name_id))
         my_crawl=Crawl(name_id,day_limit)
-        [image_url,vedio_url]=my_crawl.get_url()
-        image_dl=Download_url(image_url,'image')
-        image_dl.download()
-        video_dl=Download_url(video_url,'video')
-        image_dl.download()
+        [image_url,video_url]=my_crawl.get_url()
+        if len(image_url)>0:
+            image_dl=Download_url(name_id,image_url,'image')
+            image_dl.download()
+        if len(video_url)>0:
+            video_dl=Download_url(name_id,video_url,'video')
+            video_dl.download()
+        print('Download {} photos and {} video from {}.'.format(len(image_url),len(video_url),name_id))
         
         
         
