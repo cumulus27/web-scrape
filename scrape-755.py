@@ -31,7 +31,7 @@ class Crawl:
         self.video_url=[]
 
     def get_url(self):
-        for dataList in jsonHtml.get('data'):
+        for dataList in self.json_data.get('data'):
             onePost=dataList.get('post')
             postTime=onePost.get('time')
             if now-postTime>self.time_limit:
