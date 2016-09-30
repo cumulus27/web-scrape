@@ -20,6 +20,7 @@ inum=0
 isnum=0
 vnum=0
 vsnum=0
+day=6
 now=time.time()
 today=datetime.datetime.now()
 today=today.strftime('%Y-%m-%d')
@@ -29,7 +30,7 @@ for nameId in namelist:
     try:
         html=urlopen(Turl).read().decode('utf-8')
     except URLError:
-        print("URLError!")        
+        print("URLError!")
         print("From： {}".format(Turl))
     except Exception as e:
         print("Unknown error: {}".format(e))
@@ -48,7 +49,7 @@ for nameId in namelist:
     for dataList in jsonHtml.get('data'):
         onePost=dataList.get('post')
         postTime=onePost.get('time')
-        if now-postTime>86400:
+        if now-postTime>86400*day:
             break
         for bodyList in onePost.get('body'):
             #download images
@@ -64,11 +65,11 @@ for nameId in namelist:
                     try:
                         urlretrieve(url,"755-download/{}/{}/images/{}".format(nameId,today,filename))
                     except URLError:
-                        print("URLError!")        
+                        print("URLError!")
                         print("From： {}".format(url))
                     except Exception as e:
                         print("Unknown error: {}".format(e))
-                        print("From： {}".format(url))                    
+                        print("From： {}".format(url))
                     inum=inum+1
                     isnum=isnum+1
                     print(url)

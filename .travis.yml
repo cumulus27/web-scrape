@@ -8,8 +8,8 @@ install: "pip install -r requirements.txt"
 
 # command to run tests
 script: 
- - python3 oneday-755-scrape.py
- - coverage run --source=oneday-755-scrape oneday-755-scrape.py test
+ - python3 scrape-755.py
+ - coverage run --source=scrape-755 scrape-755.py test
 
 after_success:
   - coveralls
